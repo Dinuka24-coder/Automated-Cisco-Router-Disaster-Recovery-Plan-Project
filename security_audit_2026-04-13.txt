@@ -1,0 +1,22 @@
+===========================================================================
+               ENTERPRISE NETWORK SECURITY AUDIT REPORT
+===========================================================================
+Target Device  : devnetsandboxiosxec8k.cisco.com
+Device OS      : Cisco IOS/IOS-XE
+Audit Date     : 2026-04-13 10:09:11
+---------------------------------------------------------------------------
+EXECUTIVE SUMMARY:
+Lines Scanned  : 625 lines of running-config
+Vulnerabilities: 5 issues detected requiring remediation
+---------------------------------------------------------------------------
+DETAILED VULNERABILITY FINDINGS:
+
+[Line 243] [HIGH]   Plaintext 'enable password' found. Action: Use 'enable secret'.
+[Line 243] [MEDIUM] Weak Type 7 encryption detected. Action: Upgrade hashing algorithm.
+[Line 530] [MEDIUM] Unencrypted HTTP web dashboard enabled. Action: Use 'ip http secure-server'.
+[Global]  [HIGH]   No centralized Syslog server configured. Action: Configure logging host for SIEM.
+[Global]  [MEDIUM] No NTP server configured. Log timestamps will be inaccurate. Action: Add NTP server.
+
+===========================================================================
+END OF REPORT. Please forward to the Network Security Team for remediation.
+===========================================================================

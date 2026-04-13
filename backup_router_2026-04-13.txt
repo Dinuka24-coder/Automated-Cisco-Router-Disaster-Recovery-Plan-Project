@@ -1,0 +1,625 @@
+Building configuration...
+
+Current configuration : 16091 bytes
+!
+! Last configuration change at 03:34:28 UTC Mon Apr 13 2026 by yundoyi
+!
+version 17.15
+service timestamps debug datetime msec
+service timestamps log datetime msec
+service password-encryption
+platform qfp utilization monitor load 80
+platform sslvpn use-pd
+platform console virtual
+!
+hostname sw-l1-0
+!
+boot-start-marker
+boot-end-marker
+!
+!
+vrf definition INGENIERIA
+ !
+ address-family ipv4
+ exit-address-family
+!
+vrf definition Mgmt-vrf
+ !
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+aaa new-model
+!
+!
+aaa group server tacacs+ labtac
+ server name sandboxtacacs
+ ip tacacs source-interface GigabitEthernet1
+!
+aaa authentication login default group labtac local
+aaa authentication login netconf-authn group labtac local
+aaa authentication login RESTCONF_LOCAL local
+aaa authorization exec default group labtac local if-authenticated 
+aaa authorization exec netconf-authz group labtac local 
+aaa authorization commands 1 default group labtac local if-authenticated 
+aaa authorization commands 15 default group labtac local if-authenticated 
+!
+!
+aaa session-id common
+!
+!
+!
+!
+!
+!
+ip vrf VRF-g1
+ rd 100:1
+ route-target export 100:1
+ route-target import 300:1
+!
+ip vrf VRF-g10
+ rd 100:10
+ route-target export 100:1
+ route-target import 300:1
+!
+ip vrf VRF-g11
+ rd 100:11
+ route-target export 100:1
+ route-target import 300:1
+!
+ip vrf VRF-g12
+ rd 100:12
+ route-target export 100:1
+ route-target import 300:1
+!
+ip vrf VRF-g13
+ rd 100:13
+ route-target export 100:1
+ route-target import 300:1
+!
+ip vrf VRF-g14
+ rd 100:14
+ route-target export 100:1
+ route-target import 300:1
+!
+ip vrf VRF-g15
+ rd 100:15
+ route-target export 100:1
+ route-target import 300:1
+!
+ip vrf VRF-g16
+ rd 100:16
+ route-target export 100:1
+ route-target import 300:1
+!
+ip vrf VRF-g2
+ rd 100:2
+ route-target export 100:1
+ route-target import 300:1
+!
+ip vrf VRF-g3
+ rd 100:3
+ route-target export 100:1
+ route-target import 300:1
+!
+ip vrf VRF-g4
+ rd 100:4
+ route-target export 100:1
+ route-target import 300:1
+!
+ip vrf VRF-g5
+ rd 100:5
+ route-target export 100:1
+ route-target import 300:1
+!
+ip vrf VRF-g6
+ rd 100:6
+ route-target export 100:1
+ route-target import 300:1
+!
+ip vrf VRF-g7
+ rd 100:7
+ route-target export 100:1
+ route-target import 300:1
+!
+ip vrf VRF-g8
+ rd 100:8
+ route-target export 100:1
+ route-target import 300:1
+!
+ip vrf VRF-g9
+ rd 100:9
+ route-target export 100:1
+ route-target import 300:1
+!
+ip vrf VRF-s1
+ rd 300:1
+ route-target export 300:1
+ route-target import 100:1
+!
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip domain name lab.devnetsandbox.local
+!
+!
+!
+login on-success log
+!
+!
+subscriber templating
+!
+!
+!
+crypto pki trustpoint SLA-TrustPoint
+ enrollment pkcs12
+ revocation-check crl
+ hash sha512
+!
+crypto pki trustpoint RESTCONF-TP
+ enrollment selfsigned
+ subject-name CN=RESTCONF
+ revocation-check none
+ rsakeypair Cat8kv_AO_Sandbox.lab.devnetsandbox.local
+ hash sha512
+!
+!
+crypto pki certificate chain SLA-TrustPoint
+ certificate ca 01
+  30820321 30820209 A0030201 02020101 300D0609 2A864886 F70D0101 0B050030 
+  32310E30 0C060355 040A1305 43697363 6F312030 1E060355 04031317 43697363 
+  6F204C69 63656E73 696E6720 526F6F74 20434130 1E170D31 33303533 30313934 
+  3834375A 170D3338 30353330 31393438 34375A30 32310E30 0C060355 040A1305 
+  43697363 6F312030 1E060355 04031317 43697363 6F204C69 63656E73 696E6720 
+  526F6F74 20434130 82012230 0D06092A 864886F7 0D010101 05000382 010F0030 
+  82010A02 82010100 A6BCBD96 131E05F7 145EA72C 2CD686E6 17222EA1 F1EFF64D 
+  CBB4C798 212AA147 C655D8D7 9471380D 8711441E 1AAF071A 9CAE6388 8A38E520 
+  1C394D78 462EF239 C659F715 B98C0A59 5BBB5CBD 0CFEBEA3 700A8BF7 D8F256EE 
+  4AA4E80D DB6FD1C9 60B1FD18 FFC69C96 6FA68957 A2617DE7 104FDC5F EA2956AC 
+  7390A3EB 2B5436AD C847A2C5 DAB553EB 69A9A535 58E9F3E3 C0BD23CF 58BD7188 
+  68E69491 20F320E7 948E71D7 AE3BCC84 F10684C7 4BC8E00F 539BA42B 42C68BB7 
+  C7479096 B4CB2D62 EA2F505D C7B062A4 6811D95B E8250FC4 5D5D5FB8 8F27D191 
+  C55F0D76 61F9A4CD 3D992327 A8BB03BD 4E6D7069 7CBADF8B DF5F4368 95135E44 
+  DFC7C6CF 04DD7FD1 02030100 01A34230 40300E06 03551D0F 0101FF04 04030201 
+  06300F06 03551D13 0101FF04 05300301 01FF301D 0603551D 0E041604 1449DC85 
+  4B3D31E5 1B3E6A17 606AF333 3D3B4C73 E8300D06 092A8648 86F70D01 010B0500 
+  03820101 00507F24 D3932A66 86025D9F E838AE5C 6D4DF6B0 49631C78 240DA905 
+  604EDCDE FF4FED2B 77FC460E CD636FDB DD44681E 3A5673AB 9093D3B1 6C9E3D8B 
+  D98987BF E40CBD9E 1AECA0C2 2189BB5C 8FA85686 CD98B646 5575B146 8DFC66A8 
+  467A3DF4 4D565700 6ADF0F0D CF835015 3C04FF7C 21E878AC 11BA9CD2 55A9232C 
+  7CA7B7E6 C1AF74F6 152E99B7 B1FCF9BB E973DE7F 5BDDEB86 C71E3B49 1765308B 
+  5FB0DA06 B92AFE7F 494E8A9E 07B85737 F3A58BE1 1A48A229 C37C1E69 39F08678 
+  80DDCD16 D6BACECA EEBC7CF9 8428787B 35202CDC 60E4616A B623CDBD 230E3AFB 
+  418616A9 4093E049 4D10AB75 27E86F73 932E35B5 8862FDAE 0275156F 719BB2F0 
+  D697DF7F 28
+  	quit
+crypto pki certificate chain RESTCONF-TP
+ certificate self-signed 02
+  30820368 30820250 A0030201 02020102 300D0609 2A864886 F70D0101 0D050030 
+  4D311130 0F060355 04030C08 52455354 434F4E46 31383036 06092A86 4886F70D 
+  0109020C 29436174 386B765F 414F5F53 616E6462 6F782E6C 61622E64 65766E65 
+  7473616E 64626F78 2E6C6F63 616C301E 170D3236 30343132 31393530 33385A17 
+  0D333630 34313131 39353033 385A304D 3111300F 06035504 030C0852 45535443 
+  4F4E4631 38303606 092A8648 86F70D01 09020C29 43617438 6B765F41 4F5F5361 
+  6E64626F 782E6C61 622E6465 766E6574 73616E64 626F782E 6C6F6361 6C308201 
+  22300D06 092A8648 86F70D01 01010500 0382010F 00308201 0A028201 0100A8E2 
+  2BC5322F 7F16159A 2ECB7B47 F46E866C ED3A1DFD DB06D21A DEF4C975 2226F0FC 
+  94A0D7D7 62D7A7C1 CF5A86A4 FF8410EB F6A062FA 5AF6B58B 5DE0C85D 592E1C8D 
+  CEC3DE5B B34BDC4D D608AA01 4EF1287A 2BA67200 5BC219BE D609343D 65F89763 
+  1CD6D606 9D64FF79 CB2DAD41 E45FA74D 622E2A64 3B305764 196A9B52 B4B66C14 
+  6A8D8795 AB1BE864 3733AD9A 9E4EC377 134527DC 1D614E23 52439E38 085E19E5 
+  5164C61C 8E1386C2 EB6FFC04 BFEB38EB CAFB4F0A F8864CB3 6B9F69F9 A34703E3 
+  A80D9A65 A8549826 69935058 7D763159 B3DD5168 684D358D E7E0AF31 E671FB35 
+  B2F25C9D 7D299960 472A5498 C5F41910 DEF5DC17 B132D23F 57718E57 E0AB0203 
+  010001A3 53305130 1D060355 1D0E0416 0414E30D 029A9798 073572E2 AF7B1B6E 
+  EC30E250 19A5301F 0603551D 23041830 168014E3 0D029A97 98073572 E2AF7B1B 
+  6EEC30E2 5019A530 0F060355 1D130101 FF040530 030101FF 300D0609 2A864886 
+  F70D0101 0D050003 82010100 54B419A8 404E5520 9CBBB4E9 31BA5113 12F5C9B8 
+  8D7F60D4 BB613A32 EE67EE10 BEE57803 80031C8F F9790972 FCE6DC1B AED5D072 
+  2340F9F3 F6208241 0769A9FC E0DFF73E 8867CAFD 255B3367 26C98B91 516B4AE4 
+  FB8164AF 023B1392 07126EDD 1187E875 A8BCAEA9 47684C57 C34B409F 04C1D557 
+  833DBAE2 6655FA27 4C991606 730816FF BC064127 D7CCA818 845B7E27 171F3D17 
+  F53DB5E8 B1ABCD6B 27B3D42B DE64864E A1C4EE15 B0D7A671 3C96E68D 8E81C29D 
+  BEF71598 2AC873EC EEC571F0 D0F01809 F7245678 06A97808 7957E6B0 CD9A4861 
+  47EEDE0F AC514752 D91CFD9A 57F8F69B B255F323 A9C7E12F 26695FAF E8FE73CF 
+  2BAA05E8 E8974C3F 08E76D28
+  	quit
+!
+!
+license udi pid C8000V sn 9YB8GCIXM3M
+memory free low-watermark processor 204144
+diagnostic bootup level minimal
+!
+lacp system-priority 200
+!
+!
+enable secret 9 $9$QFKir/5RZtFBuk$J8E4iGPu/85pKFwChUkcm1Gz0fsTmjE8eT9bqit4YM2
+enable password 7 0225554808095E731F1A5C
+!
+username admin privilege 15 secret 9 $9$xfJaj985/31C8k$4zR/SzPia87KuG0p9XZIrcS31V8i4skDuWbK/3HmU/Q
+!
+redundancy
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback2
+ description NEWBUTSAMEIP
+ no ip address
+!
+interface Loopback101
+ description WHATEVER
+ ip address 2.2.2.2 255.255.255.0
+!
+interface Loopback158
+ ip address 158.158.158.158 255.255.255.0
+!
+interface Loopback853
+ ip address 153.153.153.153 255.255.255.0
+!
+interface VirtualPortGroup0
+ ip address dhcp
+!
+interface GigabitEthernet1
+ ip address 10.10.20.148 255.255.255.0
+ negotiation auto
+!
+interface GigabitEthernet2
+ no ip address
+ shutdown
+ negotiation auto
+!
+interface GigabitEthernet3
+ no ip address
+ shutdown
+ negotiation auto
+!
+interface Vlan2
+ mac-address 0000.5e00.0000
+ ip vrf forwarding VRF-g1
+ ip address 10.0.0.1 255.255.255.0
+ no ip redirects
+ carrier-delay 0
+!
+interface Vlan3
+ mac-address 0000.5e00.0000
+ ip vrf forwarding VRF-g2
+ ip address 10.0.1.1 255.255.255.0
+ no ip redirects
+ carrier-delay 0
+!
+interface Vlan4
+ mac-address 0000.5e00.0000
+ ip vrf forwarding VRF-g3
+ ip address 10.0.2.1 255.255.255.0
+ no ip redirects
+ carrier-delay 0
+!
+interface Vlan5
+ mac-address 0000.5e00.0000
+ ip vrf forwarding VRF-g4
+ ip address 10.0.3.1 255.255.255.0
+ no ip redirects
+ carrier-delay 0
+!
+interface Vlan6
+ mac-address 0000.5e00.0000
+ ip vrf forwarding VRF-g5
+ ip address 10.0.4.1 255.255.255.0
+ no ip redirects
+ carrier-delay 0
+!
+interface Vlan7
+ mac-address 0000.5e00.0000
+ ip vrf forwarding VRF-g6
+ ip address 10.0.5.1 255.255.255.0
+ no ip redirects
+ carrier-delay 0
+!
+interface Vlan8
+ mac-address 0000.5e00.0000
+ ip vrf forwarding VRF-g7
+ ip address 10.0.6.1 255.255.255.0
+ no ip redirects
+ carrier-delay 0
+!
+interface Vlan9
+ mac-address 0000.5e00.0000
+ ip vrf forwarding VRF-g8
+ ip address 10.0.7.1 255.255.255.0
+ no ip redirects
+ carrier-delay 0
+!
+interface Vlan10
+ mac-address 0000.5e00.0000
+ ip vrf forwarding VRF-g9
+ ip address 10.0.8.1 255.255.255.0
+ no ip redirects
+ carrier-delay 0
+!
+interface Vlan11
+ mac-address 0000.5e00.0000
+ ip vrf forwarding VRF-g10
+ ip address 10.0.9.1 255.255.255.0
+ no ip redirects
+ carrier-delay 0
+!
+interface Vlan12
+ mac-address 0000.5e00.0000
+ ip vrf forwarding VRF-g11
+ ip address 10.0.10.1 255.255.255.0
+ no ip redirects
+ carrier-delay 0
+!
+interface Vlan13
+ mac-address 0000.5e00.0000
+ ip vrf forwarding VRF-g12
+ ip address 10.0.11.1 255.255.255.0
+ no ip redirects
+ carrier-delay 0
+!
+interface Vlan14
+ mac-address 0000.5e00.0000
+ ip vrf forwarding VRF-g13
+ ip address 10.0.12.1 255.255.255.0
+ no ip redirects
+ carrier-delay 0
+!
+interface Vlan15
+ mac-address 0000.5e00.0000
+ ip vrf forwarding VRF-g14
+ ip address 10.0.13.1 255.255.255.0
+ no ip redirects
+ carrier-delay 0
+!
+interface Vlan16
+ mac-address 0000.5e00.0000
+ ip vrf forwarding VRF-g15
+ ip address 10.0.14.1 255.255.255.0
+ no ip redirects
+ carrier-delay 0
+!
+interface Vlan17
+ mac-address 0000.5e00.0000
+ ip vrf forwarding VRF-g16
+ ip address 10.0.15.1 255.255.255.0
+ no ip redirects
+ carrier-delay 0
+!
+router bgp 65001
+ bgp router-id 172.168.1.0
+ bgp log-neighbor-changes
+ bgp graceful-restart
+ network 192.168.20.0
+ neighbor 10.1.0.2 remote-as 65002
+ neighbor 10.1.0.2 description BGP_PEER_AS65002
+ !
+ address-family ipv4 vrf VRF-g1
+  import path selection all
+  redistribute connected route-map RM-AILB-OUT
+ exit-address-family
+ !
+ address-family ipv4 vrf VRF-g10
+  import path selection all
+  redistribute connected route-map RM-AILB-OUT
+ exit-address-family
+ !
+ address-family ipv4 vrf VRF-g11
+  import path selection all
+  redistribute connected route-map RM-AILB-OUT
+ exit-address-family
+ !
+ address-family ipv4 vrf VRF-g12
+  import path selection all
+  redistribute connected route-map RM-AILB-OUT
+ exit-address-family
+ !
+ address-family ipv4 vrf VRF-g13
+  import path selection all
+  redistribute connected route-map RM-AILB-OUT
+ exit-address-family
+ !
+ address-family ipv4 vrf VRF-g14
+  import path selection all
+  redistribute connected route-map RM-AILB-OUT
+ exit-address-family
+ !
+ address-family ipv4 vrf VRF-g15
+  import path selection all
+  redistribute connected route-map RM-AILB-OUT
+ exit-address-family
+ !
+ address-family ipv4 vrf VRF-g16
+  import path selection all
+  redistribute connected route-map RM-AILB-OUT
+ exit-address-family
+ !
+ address-family ipv4 vrf VRF-g2
+  import path selection all
+  redistribute connected route-map RM-AILB-OUT
+ exit-address-family
+ !
+ address-family ipv4 vrf VRF-g3
+  import path selection all
+  redistribute connected route-map RM-AILB-OUT
+ exit-address-family
+ !
+ address-family ipv4 vrf VRF-g4
+  import path selection all
+  redistribute connected route-map RM-AILB-OUT
+ exit-address-family
+ !
+ address-family ipv4 vrf VRF-g5
+  import path selection all
+  redistribute connected route-map RM-AILB-OUT
+ exit-address-family
+ !
+ address-family ipv4 vrf VRF-g6
+  import path selection all
+  redistribute connected route-map RM-AILB-OUT
+ exit-address-family
+ !
+ address-family ipv4 vrf VRF-g7
+  import path selection all
+  redistribute connected route-map RM-AILB-OUT
+ exit-address-family
+ !
+ address-family ipv4 vrf VRF-g8
+  import path selection all
+  redistribute connected route-map RM-AILB-OUT
+ exit-address-family
+ !
+ address-family ipv4 vrf VRF-g9
+  import path selection all
+  redistribute connected route-map RM-AILB-OUT
+ exit-address-family
+ !
+ address-family ipv4 vrf VRF-s1
+  redistribute connected route-map RM-AILB-OUT
+  neighbor 10.0.144.2 remote-as 65002
+  neighbor 10.0.144.2 fall-over bfd
+  neighbor 10.0.144.2 activate
+  neighbor 10.0.144.2 send-community extended
+  neighbor 10.0.145.2 remote-as 65002
+  neighbor 10.0.145.2 fall-over bfd
+  neighbor 10.0.145.2 activate
+  neighbor 10.0.145.2 send-community extended
+  neighbor 10.0.146.2 remote-as 65002
+  neighbor 10.0.146.2 fall-over bfd
+  neighbor 10.0.146.2 activate
+  neighbor 10.0.146.2 send-community extended
+  neighbor 10.0.147.2 remote-as 65002
+  neighbor 10.0.147.2 fall-over bfd
+  neighbor 10.0.147.2 activate
+  neighbor 10.0.147.2 send-community extended
+  neighbor 10.0.148.2 remote-as 65002
+  neighbor 10.0.148.2 fall-over bfd
+  neighbor 10.0.148.2 activate
+  neighbor 10.0.148.2 send-community extended
+  neighbor 10.0.149.2 remote-as 65002
+  neighbor 10.0.149.2 fall-over bfd
+  neighbor 10.0.149.2 activate
+  neighbor 10.0.149.2 send-community extended
+  neighbor 10.0.150.2 remote-as 65002
+  neighbor 10.0.150.2 fall-over bfd
+  neighbor 10.0.150.2 activate
+  neighbor 10.0.150.2 send-community extended
+  neighbor 10.0.151.2 remote-as 65002
+  neighbor 10.0.151.2 fall-over bfd
+  neighbor 10.0.151.2 activate
+  neighbor 10.0.151.2 send-community extended
+ exit-address-family
+!
+iox
+ip default-gateway 10.10.20.254
+ip forward-protocol nd
+ip forward-protocol udp
+!
+ip http server
+ip http authentication aaa login-authentication RESTCONF_LOCAL
+ip http secure-server
+ip http secure-trustpoint RESTCONF-TP
+ip route 0.0.0.0 0.0.0.0 10.10.20.254
+ip ssh bulk-mode 131072
+!
+ip prefix-list PL-TAG-1 seq 10 permit 10.0.0.0/24
+ip prefix-list PL-TAG-1 seq 20 permit 10.0.1.0/24
+!
+ip prefix-list PL-TAG-2 seq 10 permit 10.0.2.0/24
+ip prefix-list PL-TAG-2 seq 20 permit 10.0.3.0/24
+!
+ip prefix-list PL-TAG-3 seq 10 permit 10.0.4.0/24
+ip prefix-list PL-TAG-3 seq 20 permit 10.0.5.0/24
+!
+ip prefix-list PL-TAG-4 seq 10 permit 10.0.6.0/24
+ip prefix-list PL-TAG-4 seq 20 permit 10.0.7.0/24
+!
+ip prefix-list PL-TAG-5 seq 10 permit 10.0.8.0/24
+ip prefix-list PL-TAG-5 seq 20 permit 10.0.9.0/24
+!
+ip prefix-list PL-TAG-6 seq 10 permit 10.0.10.0/24
+ip prefix-list PL-TAG-6 seq 20 permit 10.0.11.0/24
+!
+ip prefix-list PL-TAG-7 seq 10 permit 10.0.12.0/24
+ip prefix-list PL-TAG-7 seq 20 permit 10.0.13.0/24
+!
+ip prefix-list PL-TAG-8 seq 10 permit 10.0.14.0/24
+ip prefix-list PL-TAG-8 seq 20 permit 10.0.15.0/24
+!
+route-map RM-AILB-OUT permit 10 
+ match ip address prefix-list PL-TAG-1
+ set tag 1
+!
+route-map RM-AILB-OUT permit 20 
+ match ip address prefix-list PL-TAG-2
+ set tag 2
+!
+route-map RM-AILB-OUT permit 30 
+ match ip address prefix-list PL-TAG-3
+ set tag 3
+!
+route-map RM-AILB-OUT permit 40 
+ match ip address prefix-list PL-TAG-4
+ set tag 4
+!
+route-map RM-AILB-OUT permit 50 
+ match ip address prefix-list PL-TAG-5
+ set tag 5
+!
+route-map RM-AILB-OUT permit 60 
+ match ip address prefix-list PL-TAG-6
+ set tag 6
+!
+route-map RM-AILB-OUT permit 70 
+ match ip address prefix-list PL-TAG-7
+ set tag 7
+!
+route-map RM-AILB-OUT permit 80 
+ match ip address prefix-list PL-TAG-8
+ set tag 8
+!
+route-map RM-AILB-OUT permit 1000 
+ set tag 1
+!
+tacacs server sandboxtacacs
+ address ipv4 10.17.248.43
+ key 7 141E010E0F053E732F
+!
+!
+!
+!
+control-plane
+!
+banner motd ^Casep^C
+!
+line con 0
+ stopbits 1
+line aux 0
+line vty 0 4
+ transport input ssh
+!
+!
+!
+!
+!
+!
+!
+app-hosting appid guestshell
+ app-vnic management guest-interface 0
+netconf-yang
+restconf
+yang-interfaces aaa authentication method-list netconf-authn
+yang-interfaces aaa authorization method-list netconf-authz
+end

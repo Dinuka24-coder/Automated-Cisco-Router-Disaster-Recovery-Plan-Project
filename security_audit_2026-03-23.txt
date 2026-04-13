@@ -1,0 +1,5 @@
+Advanced Network Security Audit Report - 2026-03-23
+=======================================================
+Line 149: HIGH RISK - Plaintext 'enable password' found. Must use 'enable secret'.
+Line 149: MEDIUM RISK - Weak Cisco Type 7 password encryption detected.
+Line 205: MEDIUM RISK - Unencrypted HTTP web dashboard is enabled. Use 'ip http secure-server'.
